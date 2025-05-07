@@ -1,0 +1,426 @@
+<html lang="es">
+ <head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>Nuestra Historia De Amor</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    rel="stylesheet"
+  />
+  <style>
+    /* Custom scrollbar for the page */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background-color: #b91c3a;
+      border-radius: 10px;
+    }
+    /* Fade animation for images */
+    .fade-enter {
+      opacity: 0;
+      transform: scale(0.95);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .fade-enter-active {
+      opacity: 1;
+      transform: scale(1);
+    }
+    .fade-exit {
+      opacity: 1;
+      transform: scale(1);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .fade-exit-active {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    /* Side arrow animations */
+    #prevBtn,
+    #nextBtn {
+      transition: transform 0.3s ease;
+    }
+    #prevBtn:hover {
+      transform: translateX(-6px) scale(1.1);
+    }
+    #nextBtn:hover {
+      transform: translateX(6px) scale(1.1);
+    }
+  </style>
+ </head>
+ <body
+   class="bg-gradient-to-b from-[#fce9e9] to-[#f9e6e6] min-h-screen flex justify-center p-4"
+ >
+  <main class="max-w-md w-full">
+   <header class="text-center mb-4">
+    <h1 class="text-[#b91c3a] font-semibold text-xl md:text-2xl">
+     Nuestra Historia
+    </h1>
+    <p class="text-[#b91c3a] text-xs md:text-sm mt-1">
+     Desde el 13 de Abril, 2025
+    </p>
+   </header>
+   <section
+     aria-label="Nuestro Tiempo Juntos"
+     class="bg-gradient-to-r from-[#e6397a] to-[#f94a6a] rounded-lg shadow-lg p-4 mb-4 flex justify-between text-white font-semibold text-xs md:text-sm"
+   >
+    <div
+      class="flex flex-col items-center bg-[#f15a9a] rounded p-2 w-16 md:w-20"
+    >
+     <span class="text-lg md:text-xl font-extrabold leading-none" id="days">
+      0
+     </span>
+     <span class="uppercase font-normal mt-1">días</span>
+    </div>
+    <div
+      class="flex flex-col items-center bg-[#f15a9a] rounded p-2 w-16 md:w-20"
+    >
+     <span class="text-lg md:text-xl font-extrabold leading-none" id="hours">
+      0
+     </span>
+     <span class="uppercase font-normal mt-1">horas</span>
+    </div>
+    <div
+      class="flex flex-col items-center bg-[#f15a9a] rounded p-2 w-16 md:w-20"
+    >
+     <span
+       class="text-lg md:text-xl font-extrabold leading-none"
+       id="minutes"
+     >
+      0
+     </span>
+     <span class="uppercase font-normal mt-1">minutos</span>
+    </div>
+    <div
+      class="flex flex-col items-center bg-[#f15a9a] rounded p-2 w-16 md:w-20"
+    >
+     <span
+       class="text-lg md:text-xl font-extrabold leading-none"
+       id="seconds"
+     >
+      0
+     </span>
+     <span class="uppercase font-normal mt-1">segundos</span>
+    </div>
+   </section>
+   <blockquote
+     aria-label="Quote"
+     class="bg-white rounded shadow px-4 py-2 mb-4 text-center italic text-xs md:text-sm text-[#333] font-light"
+   >
+    "Cada segundo contigo es un tesoro que guardo en mi corazón"
+   </blockquote>
+   <section aria-label="Nuestros Momentos" class="bg-white rounded shadow p-4">
+    <div class="flex justify-between items-center mb-2 space-x-2">
+     <h2 class="text-[#b91c3a] font-semibold text-sm md:text-base flex-1">
+      Nuestros Momentos
+     </h2>
+     <div class="flex space-x-2">
+      <button
+        aria-label="Pausar"
+        class="text-[#f15a9a] text-xs border border-[#f15a9a] rounded-full px-2 py-0.5 hover:bg-[#f15a9a] hover:text-white transition"
+        id="pauseBtn"
+        type="button"
+      >
+       || Pausar
+      </button>
+      <button
+        aria-label="Agregar Imagen"
+        class="text-[#f15a9a] text-xs border border-[#f15a9a] rounded-full px-2 py-0.5 hover:bg-[#f15a9a] hover:text-white transition flex items-center"
+        id="addImageBtn"
+        type="button"
+      >
+       <i class="fas fa-plus mr-1"></i> Agregar
+      </button>
+      <button
+        aria-label="Eliminar Imagen"
+        class="text-[#f15a9a] text-xs border border-[#f15a9a] rounded-full px-2 py-0.5 hover:bg-[#f15a9a] hover:text-white transition flex items-center"
+        id="deleteImageBtn"
+        type="button"
+      >
+       <i class="fas fa-trash-alt mr-1"></i> Eliminar
+      </button>
+     </div>
+    </div>
+    <div class="relative rounded overflow-hidden">
+     <img
+       alt="Imagen del momento"
+       class="w-full h-auto rounded transition-transform duration-500 ease-in-out"
+       height="200"
+       id="momentImage"
+       src="https://placehold.co/600x200?text=Imagen+1"
+       width="600"
+     />
+     <div
+       class="absolute bottom-2 left-2 text-white text-xs bg-black bg-opacity-50 rounded px-2 py-1 select-none max-w-[90%] truncate"
+       id="caption"
+       title=""
+     >
+      Ese abrazo que lo dice todo
+     </div>
+     <button
+       aria-label="Anterior"
+       class="absolute top-1/2 left-2 -translate-y-1/2 bg-black bg-opacity-30 text-white rounded-full p-1"
+       id="prevBtn"
+       type="button"
+     >
+      <i class="fas fa-chevron-left text-xs"></i>
+     </button>
+     <button
+       aria-label="Siguiente"
+       class="absolute top-1/2 right-2 -translate-y-1/2 bg-black bg-opacity-30 text-white rounded-full p-1"
+       id="nextBtn"
+       type="button"
+     >
+      <i class="fas fa-chevron-right text-xs"></i>
+     </button>
+    </div>
+    <input accept="image/*" class="hidden" id="fileInput" type="file" multiple />
+   </section>
+
+   <!-- Modal for selecting image to delete -->
+   <div
+     id="deleteModal"
+     class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50"
+   >
+    <div
+      class="bg-white rounded-lg max-w-sm w-full p-4 max-h-[80vh] overflow-y-auto"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="deleteModalTitle"
+    >
+     <h3
+       id="deleteModalTitle"
+       class="text-[#b91c3a] font-semibold text-lg mb-3 text-center"
+     >
+      Seleccione la imagen a eliminar
+     </h3>
+     <ul id="deleteList" class="space-y-2 max-h-64 overflow-y-auto"></ul>
+     <div class="flex justify-end space-x-2 mt-4">
+      <button
+        id="cancelDeleteBtn"
+        class="px-3 py-1 rounded border border-gray-400 hover:bg-gray-100 transition"
+        type="button"
+      >
+       Cancelar
+      </button>
+     </div>
+    </div>
+   </div>
+  </main>
+  <script>
+    // Countdown timer from 13 April 2025 to now
+    const startDate = new Date("2025-04-13T00:00:00");
+    const daysEl = document.getElementById("days");
+    const hoursEl = document.getElementById("hours");
+    const minutesEl = document.getElementById("minutes");
+    const secondsEl = document.getElementById("seconds");
+
+    function updateCountdown() {
+      const now = new Date();
+      let diff = now - startDate; // difference in ms
+      if (diff < 0) diff = 0; // if before start date, show 0
+
+      const seconds = Math.floor(diff / 1000) % 60;
+      const minutes = Math.floor(diff / (1000 * 60)) % 60;
+      const hours = Math.floor(diff / (1000 * 60 * 60)) % 24;
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+      daysEl.textContent = days;
+      hoursEl.textContent = hours;
+      minutesEl.textContent = minutes;
+      secondsEl.textContent = seconds;
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    // Image slider with ability to add images and fade animation
+    // Load images from localStorage or default
+    let images =
+      JSON.parse(localStorage.getItem("images")) || [
+        {
+          src: "https://placehold.co/600x200?text=Imagen+1",
+          alt: "Tres amigas de espaldas levantando las manos al atardecer con luz de fondo",
+          caption: "Ese abrazo que lo dice todo",
+        },
+        {
+          src: "https://placehold.co/600x200?text=Imagen+2",
+          alt: "Pareja caminando en un parque con hojas otoñales",
+          caption: "Un paseo inolvidable",
+        },
+        {
+          src: "https://placehold.co/600x200?text=Imagen+3",
+          alt: "Manos entrelazadas con fondo de puesta de sol",
+          caption: "Juntos para siempre",
+        },
+      ];
+
+    let currentIndex = 0;
+    let paused = false;
+    const momentImage = document.getElementById("momentImage");
+    const caption = document.getElementById("caption");
+    const pauseBtn = document.getElementById("pauseBtn");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const addImageBtn = document.getElementById("addImageBtn");
+    const deleteImageBtn = document.getElementById("deleteImageBtn");
+    const fileInput = document.getElementById("fileInput");
+
+    const deleteModal = document.getElementById("deleteModal");
+    const deleteList = document.getElementById("deleteList");
+    const cancelDeleteBtn = document.getElementById("cancelDeleteBtn");
+
+    function saveImages() {
+      localStorage.setItem("images", JSON.stringify(images));
+    }
+
+    function showImage(index) {
+      momentImage.classList.add("opacity-0", "scale-95");
+      setTimeout(() => {
+        momentImage.src = images[index].src;
+        momentImage.alt = images[index].alt || "Imagen del momento";
+        caption.textContent = images[index].caption || "";
+        caption.title = images[index].caption || "";
+        momentImage.classList.remove("opacity-0", "scale-95");
+      }, 300);
+    }
+
+    prevBtn.addEventListener("click", () => {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      showImage(currentIndex);
+    });
+
+    nextBtn.addEventListener("click", () => {
+      currentIndex = (currentIndex + 1) % images.length;
+      showImage(currentIndex);
+    });
+
+    pauseBtn.addEventListener("click", () => {
+      paused = !paused;
+      pauseBtn.textContent = paused ? "▶ Reanudar" : "|| Pausar";
+    });
+
+    addImageBtn.addEventListener("click", () => {
+      const password = prompt("Ingrese la contraseña para agregar imagen:");
+      if (password !== "73664830") {
+        alert("Contraseña incorrecta.");
+        return;
+      }
+      fileInput.value = "";
+      fileInput.click();
+    });
+
+    fileInput.addEventListener("change", () => {
+      const files = Array.from(fileInput.files);
+      if (files.length === 0) return;
+
+      const password = prompt("Ingrese la contraseña para agregar imagen(es):");
+      if (password !== "73664830") {
+        alert("Contraseña incorrecta.");
+        return;
+      }
+
+      let loadedCount = 0;
+      files.forEach((file, idx) => {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const src = e.target.result;
+          const captionText = prompt(
+            `Ingrese el pie de foto para la imagen ${idx + 1} (opcional):`
+          );
+          images.push({
+            src: src,
+            alt: "Imagen cargada por usuario",
+            caption: captionText || "",
+          });
+          loadedCount++;
+          if (loadedCount === files.length) {
+            saveImages();
+            currentIndex = images.length - 1;
+            showImage(currentIndex);
+          }
+        };
+        reader.readAsDataURL(file);
+      });
+    });
+
+    deleteImageBtn.addEventListener("click", () => {
+      if (images.length === 0) {
+        alert("No hay imágenes para eliminar.");
+        return;
+      }
+      const password = prompt("Ingrese la contraseña para eliminar imagen:");
+      if (password !== "73664830") {
+        alert("Contraseña incorrecta.");
+        return;
+      }
+      openDeleteModal();
+    });
+
+    cancelDeleteBtn.addEventListener("click", () => {
+      closeDeleteModal();
+    });
+
+    function openDeleteModal() {
+      deleteList.innerHTML = "";
+      images.forEach((img, idx) => {
+        const li = document.createElement("li");
+        li.className =
+          "flex items-center space-x-2 cursor-pointer hover:bg-red-100 rounded p-1";
+        li.title = img.caption || img.alt || "Imagen sin descripción";
+
+        const thumb = document.createElement("img");
+        thumb.src = img.src;
+        thumb.alt = img.alt || "Imagen miniatura";
+        thumb.className = "w-16 h-10 object-cover rounded flex-shrink-0";
+
+        const desc = document.createElement("span");
+        desc.className = "text-xs text-gray-700 truncate flex-1";
+        desc.textContent = img.caption || img.alt || "Sin descripción";
+
+        li.appendChild(thumb);
+        li.appendChild(desc);
+
+        li.addEventListener("click", () => {
+          const confirmDelete = confirm(
+            `¿Está seguro que desea eliminar esta imagen?\n"${desc.textContent}"`
+          );
+          if (!confirmDelete) return;
+          images.splice(idx, 1);
+          if (images.length === 0) {
+            images.push({
+              src: "https://placehold.co/600x200?text=Sin+imagenes",
+              alt: "Sin imágenes disponibles",
+              caption: "",
+            });
+            currentIndex = 0;
+          } else if (currentIndex >= images.length) {
+            currentIndex = images.length - 1;
+          }
+          saveImages();
+          showImage(currentIndex);
+          closeDeleteModal();
+        });
+
+        deleteList.appendChild(li);
+      });
+      deleteModal.classList.remove("hidden");
+    }
+
+    function closeDeleteModal() {
+      deleteModal.classList.add("hidden");
+    }
+
+    // Auto slide every 5 seconds if not paused
+    setInterval(() => {
+      if (!paused && images.length > 1) {
+        currentIndex = (currentIndex + 1) % images.length;
+        showImage(currentIndex);
+      }
+    }, 5000);
+
+    // Initial image show
+    showImage(currentIndex);
+  </script>
+ </body>
+</html>
